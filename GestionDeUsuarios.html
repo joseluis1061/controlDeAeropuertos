@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #2c3e50;
+            --accent-green: #27ae60;
+            --light-gray: #ecf0f1;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            color: var(--white);
+            text-decoration: none;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-item.active {
+            background-color: var(--accent-green);
+        }
+
+        .nav-item i {
+            margin-right: 12px;
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .button-primary {
+            background-color: var(--accent-green);
+            color: var(--white);
+        }
+
+        .search-filters {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-item label {
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+
+        .filter-item input,
+        .filter-item select {
+            padding: 8px;
+            border: 1px solid var(--light-gray);
+            border-radius: 4px;
+        }
+
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .user-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+        }
+
+        .user-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+
+        .user-info {
+            margin-top: 12px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            color: #666;
+        }
+
+        .info-item i {
+            color: var(--primary-blue);
+            font-size: 18px;
+        }
+
+        .user-role {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            background-color: var(--light-gray);
+            color: var(--primary-blue);
+            margin-top: 8px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .action-button {
+            padding: 8px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            color: var(--white);
+        }
+
+        .edit-button {
+            background-color: var(--primary-blue);
+        }
+
+        .delete-button {
+            background-color: #e74c3c;
+        }
+
+        .last-login {
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">
+                AeroControl
+            </div>
+            <nav>
+                <a href="#" class="nav-item">
+                    <i class="material-icons">dashboard</i>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="material-icons">flight</i>
+                    Vuelos
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="material-icons">location_city</i>
+                    Aeropuertos
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="material-icons">schedule</i>
+                    Programas
+                </a>
+                <a href="#" class="nav-item active">
+                    <i class="material-icons">people</i>
+                    Usuarios
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="material-icons">assessment</i>
+                    Reportes
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <h1>Gestión de Usuarios</h1>
+                <button class="button button-primary">
+                    <i class="material-icons">person_add</i>
+                    Nuevo Usuario
+                </button>
+            </header>
+
+            <div class="search-filters">
+                <div class="filter-item">
+                    <label>Buscar</label>
+                    <input type="text" placeholder="Nombre o email...">
+                </div>
+                <div class="filter-item">
+                    <label>Rol</label>
+                    <select>
+                        <option value="">Todos</option>
+                        <option value="admin">Administrador</option>
+                        <option value="operator">Operador</option>
+                        <option value="viewer">Visualizador</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label>Estado</label>
+                    <select>
+                        <option value="">Todos</option>
+                        <option value="active">Activo</option>
+                        <option value="inactive">Inactivo</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="users-grid">
+                <!-- Usuario 1 -->
+                <div class="user-card">
+                    <div class="user-header">
+                        <div class="user-avatar">
+                            <i class="material-icons">person</i>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="action-button edit-button">
+                                <i class="material-icons">edit</i>
+                            </button>
+                            <button class="action-button delete-button">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="user-name">Juan Pérez</div>
+                    <div class="user-info">
+                        <div class="info-item">
+                            <i class="material-icons">email</i>
+                            <span>juan.perez@aerocontrol.com</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="material-icons">verified_user</i>
+                            <span class="user-role">Administrador</span>
+                        </div>
+                    </div>
+                    <div class="last-login">
+                        Último acceso: 04/02/2024 10:30
+                    </div>
+                </div>
+
+                <!-- Usuario 2 -->
+                <div class="user-card">
+                    <div class="user-header">
+                        <div class="user-avatar">
+                            <i class="material-icons">person</i>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="action-button edit-button">
+                                <i class="material-icons">edit</i>
+                            </button>
+                            <button class="action-button delete-button">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="user-name">María González</div>
+                    <div class="user-info">
+                        <div class="info-item">
+                            <i class="material-icons">email</i>
+                            <span>maria.gonzalez@aerocontrol.com</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="material-icons">verified_user</i>
+                            <span class="user-role">Operador</span>
+                        </div>
+                    </div>
+                    <div class="last-login">
+                        Último acceso: 04/02/2024 09:15
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

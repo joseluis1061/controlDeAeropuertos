@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Vuelos</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #2c3e50;
+            --accent-green: #27ae60;
+            --light-gray: #ecf0f1;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            color: var(--white);
+            text-decoration: none;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active {
+            background-color: var(--accent-green);
+        }
+
+        .nav-item i {
+            margin-right: 12px;
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+        }
+
+        .button-primary {
+            background-color: var(--accent-green);
+            color: var(--white);
+        }
+
+        .button-secondary {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .filters {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group label {
+            color: var(--primary-blue);
+            font-weight: bold;
+        }
+
+        .input-group input, .input-group select {
+            padding: 8px;
+            border: 1px solid var(--light-gray);
+            border-radius: 4px;
+        }
+
+        .flights-table {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 2px solid var(--light-gray);
+            color: var(--primary-blue);
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status.on-time {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status.delayed {
+            background-color: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-button {
+            padding: 6px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            color: var(--white);
+        }
+
+        .edit-button {
+            background-color: var(--primary-blue);
+        }
+
+        .delete-button {
+            background-color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar igual que en el dashboard -->
+        <aside class="sidebar">
+            <div class="logo">
+                AeroControl
+            </div>
+            <nav>
+                <a href="#" class="nav-item">
+                    <i class="material-icons">dashboard</i>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item active">
+                    <i class="material-icons">flight</i>
+                    Vuelos
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="material-icons">location_city</i>
+                    Aeropuertos
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="material-icons">schedule</i>
+                    Programas
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="material-icons">people</i>
+                    Usuarios
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="material-icons">assessment</i>
+                    Reportes
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <h1>Gestión de Vuelos</h1>
+            </header>
+
+            <div class="actions">
+                <button class="button button-primary">
+                    <i class="material-icons">add</i>
+                    Nuevo Vuelo
+                </button>
+                <button class="button button-secondary">
+                    <i class="material-icons">file_download</i>
+                    Exportar
+                </button>
+            </div>
+
+            <div class="filters">
+                <div class="input-group">
+                    <label>Número de Vuelo</label>
+                    <input type="text" placeholder="Buscar número...">
+                </div>
+                <div class="input-group">
+                    <label>Origen</label>
+                    <select>
+                        <option value="">Todos</option>
+                        <option value="BOG">Bogotá (BOG)</option>
+                        <option value="MDE">Medellín (MDE)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Destino</label>
+                    <select>
+                        <option value="">Todos</option>
+                        <option value="CTG">Cartagena (CTG)</option>
+                        <option value="CLO">Cali (CLO)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Fecha</label>
+                    <input type="date">
+                </div>
+            </div>
+
+            <div class="flights-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Vuelo</th>
+                            <th>Número</th>
+                            <th>Origen</th>
+                            <th>Destino</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Estado</th>
+                            <th>Plazas Vacías</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>AA1234</td>
+                            <td>BOG</td>
+                            <td>MDE</td>
+                            <td>2024-02-04</td>
+                            <td>10:30</td>
+                            <td><span class="status on-time">A Tiempo</span></td>
+                            <td>45</td>
+                            <td class="action-buttons">
+                                <button class="action-button edit-button">
+                                    <i class="material-icons">edit</i>
+                                </button>
+                                <button class="action-button delete-button">
+                                    <i class="material-icons">delete</i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>LA5678</td>
+                            <td>CLO</td>
+                            <td>BOG</td>
+                            <td>2024-02-04</td>
+                            <td>11:15</td>
+                            <td><span class="status delayed">Demorado</span></td>
+                            <td>23</td>
+                            <td class="action-buttons">
+                                <button class="action-button edit-button">
+                                    <i class="material-icons">edit</i>
+                                </button>
+                                <button class="action-button delete-button">
+                                    <i class="material-icons">delete</i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
